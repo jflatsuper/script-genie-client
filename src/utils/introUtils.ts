@@ -27,6 +27,6 @@ export const parseResponseToArray = (response: string): Section[] => {
     } else if (section.startsWith("(Music")) {
       return { type: "outro", content: section };
     }
-    return { type: "unknown", content: section };
+    return { type: "", content: section };
   });
 };
