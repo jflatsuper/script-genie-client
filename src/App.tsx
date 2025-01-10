@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import DashboardContainer from "./components/DashboardContainer";
+import DashboardContainer from "./DashboardContainer";
 import "./App.css";
 import { FC } from "react";
 

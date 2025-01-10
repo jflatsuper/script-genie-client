@@ -1,20 +1,21 @@
 import { FC, useState } from "react";
-import { API_URL } from "../../config";
-
+import { API_URL } from "../config";
+import { ScriptResponseDTO } from "../types/scriptIntro";
+import { parseResponseToArray, Section } from "../utils/introUtils";
 const DashboardContainer: FC = () => {
   const [script, setScript] = useState("");
-  const [intro, setIntro] = useState("");
+  const [intro, setIntro] = useState<Section[]>([]);
 
   const handleGenerate = async () => {
-    const response = await fetch(`${API_URL}/generate-intro`, {
+    const response = await fetch(`${API_URL}/title/generate-intro`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ script }),
     });
-    const data = await response.json();
-    setIntro(data.intro);
+    const data: ScriptResponseDTO = await response.json();
+    setIntro(parseResponseToArray(data.data.intro));
   };
 
   return (
@@ -31,7 +32,12 @@ const DashboardContainer: FC = () => {
       {intro && (
         <div>
           <h2>Generated Intro:</h2>
-          <p>{intro}</p>
+          {intro.map((section) => (
+            <div key={section.type}>
+              <h3>{section.type}</h3>
+              <p>{section.content}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
