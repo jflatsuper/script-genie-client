@@ -14,18 +14,18 @@ export const parseResponseToArray = (response: string): Section[] => {
   // Parse each section and assign types based on keywords
   return sections.map((section) => {
     if (section.startsWith("(Video")) {
-      return { type: "videoOpening", content: section };
+      return { type: "Video Opening", content: section };
     } else if (section.startsWith("Voiceover")) {
       const [_, _tone, content] =
         section.match(/Voiceover\s*\((.*?)\):\s*(.*)/) || [];
-      return { type: "voiceover", content: content || section };
+      return { type: "Voiceover", content: content || section };
     } else if (section.startsWith("(Text on screen")) {
       return {
-        type: "textOnScreen",
+        type: "Text on Screen",
         content: section.replace("(Text on screen: ", "").replace(")", ""),
       };
     } else if (section.startsWith("(Music")) {
-      return { type: "outro", content: section };
+      return { type: "Outro", content: section };
     }
     return { type: "", content: section };
   });
