@@ -1,7 +1,4 @@
-export interface Section {
-  type: string;
-  content: string;
-}
+import { Section } from "../types/scriptIntro";
 
 // Function to parse the response into an array
 export const parseResponseToArray = (response: string): Section[] => {
@@ -16,9 +13,9 @@ export const parseResponseToArray = (response: string): Section[] => {
     if (section.startsWith("(Video")) {
       return { type: "Video Opening", content: section };
     } else if (section.startsWith("Voiceover")) {
-      const [_, _tone, content] =
-        section.match(/Voiceover\s*\((.*?)\):\s*(.*)/) || [];
-      return { type: "Voiceover", content: content || section };
+      const voiceoverRegex = /Voiceover\s*\((.*?)\):\s*(.*)/;
+      const match = voiceoverRegex.exec(section);
+      return { type: "Voiceover", content: match?.[2] ?? section };
     } else if (section.startsWith("(Text on screen")) {
       return {
         type: "Text on Screen",
